@@ -16,29 +16,43 @@ export default function ProgressPage() {
   return (
     <main className="min-h-screen flex flex-col items-center px-4 py-6 max-w-lg mx-auto">
       <div className="w-full flex items-center mb-6">
-        <button onClick={() => router.push("/")} className="text-sky-600 text-sm font-bold">
+        <button
+          onClick={() => router.push("/")}
+          className="text-pink-500 text-sm font-black bg-white/80 rounded-full px-3 py-1.5 shadow-sm border border-pink-100"
+        >
           {t.back}
         </button>
-        <h1 className="text-lg font-black text-gray-700 mx-auto">{t.record}</h1>
-        <div className="w-12" />
+        <h1
+          className="text-lg font-black mx-auto"
+          style={{ background: "linear-gradient(135deg, #db2777, #9333ea)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+        >
+          🎀 {t.record}
+        </h1>
+        <div className="w-16" />
       </div>
 
-      <div className="w-full flex flex-col gap-4 mb-8">
+      <div className="w-full flex flex-col gap-3 mb-8">
         {([1, 2, 3, 4] as Level[]).map((level) => {
           const lp = progress.levels[level];
           return (
-            <div key={level} className={`bg-white rounded-2xl shadow-sm p-4 ${!lp.unlocked ? "opacity-50" : ""}`}>
-              <div className="flex items-center justify-between mb-2">
-                <div>
-                  <span className="font-black text-gray-700 mr-2">{t.level} {level}</span>
-                  <span className="text-sm text-gray-500">{t.levelNames[level]}</span>
+            <div
+              key={level}
+              className={`rounded-3xl p-4 border card-enter ${!lp.unlocked ? "bg-white/50 border-pink-50 opacity-50" : "bg-white border-pink-100 shadow-md shadow-pink-50"}`}
+            >
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">{["🌸","🦄","🌈","👑"][level - 1]}</span>
+                  <div>
+                    <span className="font-black text-sm text-gray-600 mr-1">{t.level} {level}</span>
+                    <span className="text-xs text-pink-400">{t.levelNames[level]}</span>
+                  </div>
                 </div>
-                {lp.unlocked ? <StarRating stars={lp.stars} /> : <span className="text-xl">🔒</span>}
+                {lp.unlocked ? <StarRating stars={lp.stars} size="sm" /> : <span className="text-lg">🔒</span>}
               </div>
               {lp.unlocked && (
-                <div className="flex gap-4 text-sm text-gray-500">
-                  <span>{t.bestScore}: <strong className="text-sky-600">{lp.bestScore}/10</strong></span>
-                  <span>{t.attempts}: <strong>{lp.attempts}{t.times}</strong></span>
+                <div className="flex gap-4 text-xs text-pink-400 mt-1">
+                  <span>{t.bestScore}: <strong className="text-pink-600">{lp.bestScore}/10</strong></span>
+                  <span>{t.attempts}: <strong className="text-pink-600">{lp.attempts}{t.times}</strong></span>
                 </div>
               )}
             </div>
@@ -48,12 +62,15 @@ export default function ProgressPage() {
 
       <button
         onClick={() => { if (confirmReset) { reset(); setConfirmReset(false); } else setConfirmReset(true); }}
-        className={`text-sm px-4 py-2 rounded-full border transition-colors ${confirmReset ? "bg-red-500 text-white border-red-500" : "border-gray-300 text-gray-400 hover:border-red-300 hover:text-red-400"}`}
+        className={`text-xs px-5 py-2 rounded-full font-bold border transition-all ${
+          confirmReset ? "text-white border-transparent" : "border-pink-200 text-pink-300 hover:border-pink-400 hover:text-pink-500"
+        }`}
+        style={confirmReset ? { background: "linear-gradient(135deg, #f472b6, #a855f7)" } : {}}
       >
         {confirmReset ? t.confirmReset : t.resetRecord}
       </button>
       {confirmReset && (
-        <button onClick={() => setConfirmReset(false)} className="mt-2 text-xs text-gray-400 underline">
+        <button onClick={() => setConfirmReset(false)} className="mt-2 text-xs text-pink-300 underline">
           {t.cancelReset}
         </button>
       )}

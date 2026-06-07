@@ -66,7 +66,7 @@ function QuizContent() {
   if (questions.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <span className="text-gray-400">{t.loading}</span>
+        <span className="text-pink-300 font-bold animate-pulse">🌸 {t.loading}</span>
       </div>
     );
   }
@@ -82,18 +82,29 @@ function QuizContent() {
   if (finished) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 max-w-lg mx-auto">
-        <div className="bg-white rounded-3xl shadow-lg p-8 text-center w-full">
-          <div className="text-5xl mb-3">{stars === 3 ? "🎉" : stars >= 1 ? "😊" : "😅"}</div>
-          <h2 className="text-2xl font-black text-sky-700 mb-1">
+        <div
+          className="rounded-3xl p-8 text-center w-full shadow-xl border border-pink-100 card-enter"
+          style={{ background: "linear-gradient(135deg, #fdf2f8, #f5f3ff)" }}
+        >
+          <div className="text-6xl mb-3">{stars === 3 ? "🎉" : stars >= 1 ? "🌸" : "😊"}</div>
+          <div className="flex justify-center gap-1 text-sm mb-3"><span>💜</span><span>💗</span><span>💜</span></div>
+          <h2
+            className="text-2xl font-black mb-1"
+            style={{ background: "linear-gradient(135deg, #db2777, #9333ea)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+          >
             {stars >= 2 ? t.resultGreat : stars === 1 ? t.resultGood : t.resultTry}
           </h2>
-          <p className="text-gray-500 text-sm mb-3">{t.resultScore(score, QUIZ_SIZE)}</p>
+          <p className="text-sm text-pink-400 mb-4">{t.resultScore(score, QUIZ_SIZE)}</p>
           <div className="flex justify-center mb-6"><StarRating stars={stars} size="lg" /></div>
           <div className="flex flex-col gap-3">
-            <button onClick={() => router.push(`/quiz?level=${level}`)} className="py-3 rounded-2xl bg-sky-500 text-white font-bold text-lg">
+            <button
+              onClick={() => router.push(`/quiz?level=${level}`)}
+              className="py-3 rounded-2xl font-black text-white text-lg shadow-lg btn-pop"
+              style={{ background: "linear-gradient(135deg, #f472b6, #a855f7)", boxShadow: "0 4px 15px rgba(244,114,182,0.4)" }}
+            >
               {t.playAgain}
             </button>
-            <button onClick={() => router.push("/")} className="py-3 rounded-2xl border-2 border-gray-200 text-gray-600 font-bold">
+            <button onClick={() => router.push("/")} className="py-3 rounded-2xl bg-white font-black text-pink-400 border border-pink-100 shadow-sm">
               {t.goHome}
             </button>
           </div>
@@ -105,30 +116,55 @@ function QuizContent() {
   return (
     <main className="min-h-screen flex flex-col items-center px-4 py-6 max-w-lg mx-auto">
       <div className="w-full flex items-center mb-4">
-        <button onClick={() => router.push("/")} className="text-sky-600 text-sm font-bold mr-auto">{t.back}</button>
-        <span className="text-sm font-bold text-gray-500">{t.level} {level}「{t.levelNames[level]}」</span>
-        <span className="ml-auto text-sm text-gray-400">{index + 1}/{QUIZ_SIZE}</span>
+        <button
+          onClick={() => router.push("/")}
+          className="text-pink-500 text-sm font-black bg-white/80 rounded-full px-3 py-1.5 shadow-sm border border-pink-100"
+        >
+          {t.back}
+        </button>
+        <span
+          className="mx-auto text-sm font-black"
+          style={{ background: "linear-gradient(135deg, #db2777, #9333ea)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+        >
+          {t.level} {level}「{t.levelNames[level]}」
+        </span>
+        <span className="text-sm font-bold text-pink-300">{index + 1}/{QUIZ_SIZE}</span>
       </div>
 
-      <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-        <div className="bg-sky-500 h-2 rounded-full transition-all" style={{ width: `${(index / QUIZ_SIZE) * 100}%` }} />
+      <div className="w-full bg-pink-100 rounded-full h-3 mb-4 overflow-hidden">
+        <div
+          className="h-3 rounded-full transition-all duration-500"
+          style={{ width: `${(index / QUIZ_SIZE) * 100}%`, background: "linear-gradient(90deg, #f472b6, #c084fc)" }}
+        />
       </div>
 
-      <div className="mb-3">
+      <div className="mb-3" style={{ filter: "drop-shadow(0 8px 24px rgba(244,114,182,0.25))" }}>
         <AnalogClock hour={current.hour} minute={current.minute} config={config} size={260} />
       </div>
 
-      <p className="text-xl font-bold text-gray-700 mb-4">{t.question}</p>
+      <p
+        className="text-xl font-black mb-4"
+        style={{ background: "linear-gradient(135deg, #db2777, #9333ea)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+      >
+        🌸 {t.question}
+      </p>
 
       <div className="grid grid-cols-2 gap-3 w-full mb-4">
         {choices.map((choice) => {
-          let cls = "py-4 rounded-2xl text-center font-bold text-base border-2 transition-all active:scale-95 ";
-          if (selected === null) cls += "bg-white border-gray-200 hover:border-sky-400 hover:bg-sky-50";
-          else if (choice.id === "correct") cls += "bg-green-100 border-green-500 text-green-700";
-          else if (choice.id === selected) cls += "bg-red-100 border-red-400 text-red-600";
-          else cls += "bg-white border-gray-100 text-gray-300";
+          let style: React.CSSProperties = {};
+          let cls = "py-4 rounded-2xl text-center font-black text-sm border-2 transition-all active:scale-95 ";
+          if (selected === null) {
+            cls += "bg-white border-pink-100 text-pink-600 hover:border-pink-300 hover:bg-pink-50 shadow-sm";
+          } else if (choice.id === "correct") {
+            cls += "border-emerald-300 text-white";
+            style = { background: "linear-gradient(135deg, #34d399, #10b981)" };
+          } else if (choice.id === selected) {
+            cls += "bg-red-50 border-red-300 text-red-500";
+          } else {
+            cls += "bg-white border-gray-100 text-gray-300";
+          }
           return (
-            <button key={choice.id} onClick={() => handleSelect(choice.id)} className={cls}>
+            <button key={choice.id} onClick={() => handleSelect(choice.id)} className={cls} style={style}>
               {timeLabel(choice.hour, choice.minute)}
             </button>
           );
@@ -136,11 +172,18 @@ function QuizContent() {
       </div>
 
       {selected && (
-        <div className="w-full">
-          <div className={`rounded-2xl px-4 py-3 text-center font-bold mb-3 ${isCorrect ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>
+        <div className="w-full card-enter">
+          <div
+            className={`rounded-2xl px-4 py-3 text-center font-black mb-3 ${isCorrect ? "text-emerald-700" : "text-red-500"}`}
+            style={isCorrect ? { background: "linear-gradient(135deg, #d1fae5, #a7f3d0)" } : { background: "#fff0f0" }}
+          >
             {isCorrect ? t.correct : t.wrong(timeLabel(current.hour, current.minute))}
           </div>
-          <button onClick={handleNext} className="w-full py-3 rounded-2xl bg-sky-500 text-white font-bold text-lg active:scale-95 transition-transform">
+          <button
+            onClick={handleNext}
+            className="w-full py-3 rounded-2xl font-black text-white text-lg shadow-lg active:scale-95 btn-pop"
+            style={{ background: "linear-gradient(135deg, #f472b6, #a855f7)", boxShadow: "0 4px 15px rgba(244,114,182,0.4)" }}
+          >
             {index + 1 < QUIZ_SIZE ? t.nextQuestion : t.viewResult}
           </button>
         </div>
