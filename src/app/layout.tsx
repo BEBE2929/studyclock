@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { LangProvider } from "@/contexts/LangContext";
@@ -12,6 +12,11 @@ const notoSansJP = Noto_Sans_JP({
 export const metadata: Metadata = {
   title: "スタディクロック",
   description: "しょうがく1ねんせいのための とけいがくしゅうアプリ",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
