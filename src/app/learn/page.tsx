@@ -35,13 +35,14 @@ function LearnContent() {
   if (questions.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <span className="text-gray-400">{t.loading}</span>
+        <span className="text-pink-300 font-bold animate-pulse">🌸 {t.loading}</span>
       </div>
     );
   }
 
   const current = questions[index];
   const config = CLOCK_CONFIG[level];
+  const progressPct = ((index + 1) / questions.length) * 100;
 
   const timeText = () => {
     if (current.minute === 0) return t.timeExact(current.hour);
@@ -58,36 +59,61 @@ function LearnContent() {
 
   return (
     <main className="min-h-screen flex flex-col items-center px-4 py-6 max-w-lg mx-auto">
-      <div className="w-full flex items-center mb-6">
-        <button onClick={() => router.push("/")} className="text-sky-600 text-sm font-bold mr-auto">
+      <div className="w-full flex items-center mb-4">
+        <button
+          onClick={() => router.push("/")}
+          className="text-pink-500 text-sm font-black bg-white/80 rounded-full px-3 py-1.5 shadow-sm border border-pink-100 hover:bg-white transition-all"
+        >
           {t.back}
         </button>
-        <span className="text-sm font-bold text-gray-500">
+        <span
+          className="mx-auto text-sm font-black"
+          style={{ background: "linear-gradient(135deg, #db2777, #9333ea)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+        >
           {t.level} {level}「{t.levelNames[level]}」
         </span>
-        <span className="ml-auto text-sm text-gray-400">{index + 1}/{questions.length}</span>
+        <span className="text-sm font-bold text-pink-300">{index + 1}/{questions.length}</span>
       </div>
 
-      <div className="mb-4">
+      <div className="w-full bg-pink-100 rounded-full h-3 mb-5 overflow-hidden">
+        <div
+          className="h-3 rounded-full transition-all duration-500"
+          style={{ width: `${progressPct}%`, background: "linear-gradient(90deg, #f472b6, #c084fc)" }}
+        />
+      </div>
+
+      <div className="mb-4" style={{ filter: "drop-shadow(0 8px 24px rgba(244,114,182,0.25))" }}>
         <AnalogClock hour={current.hour} minute={current.minute} config={config} size={280} />
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm px-6 py-4 text-center mb-4 w-full">
-        <p className="text-3xl font-black text-sky-700 mb-1">{timeText()}</p>
-        <p className="text-sm text-gray-500">{handDescription()}</p>
+      <div
+        className="rounded-3xl px-6 py-4 text-center mb-5 w-full shadow-lg card-enter border border-pink-100"
+        style={{ background: "linear-gradient(135deg, #fdf2f8, #f5f3ff)" }}
+      >
+        <div className="flex justify-center gap-1 text-sm mb-1">
+          <span>🌸</span><span>🌸</span><span>🌸</span>
+        </div>
+        <p
+          className="text-3xl font-black mb-1"
+          style={{ background: "linear-gradient(135deg, #db2777, #9333ea)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+        >
+          {timeText()}
+        </p>
+        <p className="text-xs text-pink-400 mt-1">{handDescription()}</p>
       </div>
 
       <div className="flex gap-3 w-full">
         <button
           onClick={handlePrev}
           disabled={index === 0}
-          className="flex-1 py-3 rounded-2xl border-2 border-gray-200 text-gray-500 font-bold disabled:opacity-30"
+          className="flex-1 py-3 rounded-2xl bg-white font-black text-pink-400 shadow-sm border border-pink-100 disabled:opacity-30 active:scale-95 transition-all"
         >
           {t.prev}
         </button>
         <button
           onClick={handleNext}
-          className="flex-grow-[2] py-3 rounded-2xl bg-sky-500 text-white font-bold text-lg active:scale-95 transition-transform"
+          className="flex-grow-[2] py-3 rounded-2xl font-black text-white text-lg shadow-lg active:scale-95 transition-all btn-pop"
+          style={{ background: "linear-gradient(135deg, #f472b6, #a855f7)", boxShadow: "0 4px 15px rgba(244,114,182,0.45)" }}
         >
           {index < questions.length - 1 ? t.next : t.finish}
         </button>
